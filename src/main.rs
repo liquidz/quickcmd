@@ -4,6 +4,7 @@ use std::env;
 // use url::percent_encoding::lossy_utf8_percent_decode;
 use url::percent_encoding::percent_decode;
 
+mod parse;
 
 fn main() {
     // let key = "QUERY_STRING";
