@@ -5,6 +5,7 @@ use std::env;
 use url::percent_encoding::percent_decode;
 
 mod parse;
+mod search;
 
 fn main() {
     // let key = "QUERY_STRING";
