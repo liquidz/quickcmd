@@ -7,6 +7,15 @@ use url::percent_encoding::percent_decode;
 mod parse;
 mod search;
 
+fn decode(s: &str) -> Result<> {
+    match percent_decode(s.as_bytes()).decode_utf8() {
+        Ok(res) => {
+            println!("res: {}", res);
+        }
+        Err(e) => println!("err: {}", e),
+    }
+}
+
 fn main() {
     // let key = "QUERY_STRING";
     match env::var("HOME") {
@@ -17,7 +26,9 @@ fn main() {
     println!("sample: {}", sample);
 
     match percent_decode(sample.as_bytes()).decode_utf8() {
-        Ok(res) => println!("res: {}", res),
+        Ok(res) => {
+            println!("res: {}", res);
+        }
         Err(e) => println!("err: {}", e),
     }
 }
