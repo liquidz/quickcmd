@@ -7,13 +7,9 @@ use url::percent_encoding::percent_decode;
 mod parse;
 mod search;
 
-fn decode(s: &str) -> Result<> {
-    match percent_decode(s.as_bytes()).decode_utf8() {
-        Ok(res) => {
-            println!("res: {}", res);
-        }
-        Err(e) => println!("err: {}", e),
-    }
+fn decode(s: &str) -> Result<String, std::str::Utf8Error> {
+    let res = try!(percent_decode(s.as_bytes()).decode_utf8());
+    Ok(res.to_string().replace("+", " "))
 }
 
 fn main() {
@@ -25,9 +21,9 @@ fn main() {
     let sample = "g+http%3A%2F%2Fwww.nifty.com%3Ffoo%3Dbar";
     println!("sample: {}", sample);
 
-    match percent_decode(sample.as_bytes()).decode_utf8() {
+    match decode(sample) {
         Ok(res) => {
-            println!("res: {}", res);
+            println!("res: {:?}", res.parse::<parse::Request>().unwrap());
         }
         Err(e) => println!("err: {}", e),
     }

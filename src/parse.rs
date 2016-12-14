@@ -2,7 +2,7 @@ use std::str::FromStr;
 use std::io::{Error, ErrorKind};
 
 #[derive(Debug, PartialEq)]
-enum Request {
+pub enum Request {
     Url(String),
     Search(String, String),
 }
