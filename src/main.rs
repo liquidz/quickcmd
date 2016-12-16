@@ -7,6 +7,33 @@ use url::percent_encoding::percent_decode;
 mod parse;
 mod search;
 
+struct W3m;
+
+impl W3m {
+    fn plain_text(s: String) -> String {
+        format!("Content-type: text/plain\r\n\r\n{}", s)
+    }
+}
+
+trait Action {
+    fn query(&self, parse::Request) -> String;
+}
+
+impl Action for W3m {
+    fn query(&self, r: parse::Request) -> String {
+        match r {
+            parse::Request::Url(url) => *self.plain_text(url),
+            parse::Request::Search(tgt, kw) => {
+                match tgt {
+                    "g" => "foo".to_string(),
+                    _ => "unknown".to_string(),
+                }
+            }
+            _ => *self.plain_text("error".to_string()),
+        }
+    }
+}
+
 fn decode(s: &str) -> Result<String, std::str::Utf8Error> {
     let res = try!(percent_decode(s.as_bytes()).decode_utf8());
     Ok(res.to_string().replace("+", " "))
